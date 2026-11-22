@@ -1,0 +1,162 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\parindent}{0pt}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  frame=single,
+  rulecolor=\color{black!50},
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  aboveskip=6pt,
+  belowskip=10pt,
+  literate=
+    {á}{{\'a}}1 {à}{{\`a}}1 {ã}{{\~a}}1 {â}{{\^a}}1
+    {é}{{\'e}}1 {ê}{{\^e}}1 {í}{{\'i}}1
+    {ó}{{\'o}}1 {õ}{{\~o}}1 {ô}{{\^o}}1
+    {ú}{{\'u}}1 {ç}{{\c{c}}}1
+    {Á}{{\'A}}1 {Ã}{{\~A}}1 {É}{{\'E}}1 {Í}{{\'I}}1
+    {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ç}{{\c{C}}}1
+}
+
+\begin{document}
+
+{\Large\bfseries Trabalho de Pesquisa Operacional}\\[4pt]
+Nome: Arthur Henrique
+
+\vspace{4pt}
+\hrule
+\vspace{10pt}
+
+\section{Introdução}
+Este trabalho apresenta a implementação e a resolução de cinco problemas clássicos de Programação Linear Inteira (PLI) em redes: Fluxo de Custo Mínimo (PFCM), Transporte (PT), Designação (PD), Caminho Mínimo (PCM) e Fluxo Máximo (PFM). O objetivo é modelar cada formulação matematicamente, executar as instâncias propostas em sala e verificar a correspondência com as soluções de referência.
+
+\section{Metodologia}
+Os modelos foram implementados em Python utilizando a biblioteca DOcplex integrada ao solver IBM ILOG CPLEX. Cada problema foi organizado em uma pasta própria (\texttt{01\_PFCM} a \texttt{05\_PFM}), contendo um arquivo de entrada genérico (\texttt{in.txt}) e um notebook (\texttt{.ipynb}) responsável pela leitura dos dados, construção das variáveis, definição da função objetivo, inserção das restrições e impressão da solução ótima.
+
+As variáveis de decisão foram definidas como inteiras não-negativas no PFCM, PT e PFM (com fluxo mínimo igual a zero nos arcos) e como binárias no PD e no PCM. Os resultados obtidos foram comparados diretamente com as soluções apresentadas no software LINGO.
+
+\section{Resultados}
+A tabela abaixo resume os valores ótimos obtidos pelo CPLEX para cada instância em comparação com os resultados de referência do LINGO.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{l X l r r}
+    \toprule
+    \textbf{Pasta} & \textbf{Problema} & \textbf{Variáveis} & \textbf{FO CPLEX} & \textbf{FO LINGO} \\
+    \midrule
+    \texttt{01\_PFCM} & Fluxo de Custo Mínimo & Inteiras & 184,00  & 184,00  \\
+    \texttt{02\_PT}   & Transporte            & Inteiras & 1330,00 & 1330,00 \\
+    \texttt{03\_PD}   & Designação            & Binárias & 96,00   & 96,00   \\
+    \texttt{04\_PCM}  & Caminho Mínimo        & Binárias & 22,00   & 22,00   \\
+    \texttt{05\_PFM}  & Fluxo Máximo          & Inteiras & 19,00   & 19,00   \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Fluxo de Custo Mínimo (\texttt{01\_PFCM})}
+\begin{lstlisting}
+Status: integer optimal solution
+Função Objetivo (Custo Mínimo): 184.00
+
+Fluxo ótimo por arco:
+  x[F->P] =  2   (custo unit.: 7, cap.: INF)
+  x[F->M] =  8   (custo unit.: 2, cap.: 8)
+  x[G->M] =  7   (custo unit.: 5, cap.: 7)
+  x[G->H] =  3   (custo unit.: 2, cap.: INF)
+  x[H->M] =  4   (custo unit.: 6, cap.: INF)
+  x[H->N] =  3   (custo unit.: 5, cap.: 9)
+  x[H->S] =  6   (custo unit.: 4, cap.: 6)
+  x[M->P] = 16   (custo unit.: 1, cap.: 17)
+  x[M->Q] =  3   (custo unit.: 3, cap.: 4)
+  x[M->R] =  0   (custo unit.: 4, cap.: INF)
+  x[N->S] =  3   (custo unit.: 3, cap.: INF)
+  x[P->Q] = 10   (custo unit.: 1, cap.: 10)
+  x[Q->R] =  6   (custo unit.: 1, cap.: INF)
+  x[R->N] =  0   (custo unit.: 2, cap.: INF)
+\end{lstlisting}
+
+\subsection{Problema do Transporte (\texttt{02\_PT})}
+\begin{lstlisting}
+Status: integer optimal solution
+Função Objetivo (Custo Mínimo): 1330.00
+
+Unidades transportadas (Origem -> Destino):
+  x[1->1] =  5   (custo unit.: 14)
+  x[1->2] =  0   (custo unit.: 16)
+  x[1->3] = 25   (custo unit.: 13)
+  x[1->4] =  0   (custo unit.: 18)
+  x[2->1] = 15   (custo unit.: 8)
+  x[2->2] =  1   (custo unit.: 9)
+  x[2->3] =  0   (custo unit.: 10)
+  x[2->4] = 34   (custo unit.: 11)
+  x[3->1] =  0   (custo unit.: 18)
+  x[3->2] = 27   (custo unit.: 16)
+  x[3->3] =  0   (custo unit.: 21)
+  x[3->4] =  0   (custo unit.: 20)
+\end{lstlisting}
+
+\subsection{Problema da Designação (\texttt{03\_PD})}
+\begin{lstlisting}
+Status: integer optimal solution
+Função Objetivo (Custo Mínimo): 96.00
+
+Designações (Pessoa -> Tarefa):
+  x[1->A] = 0   (custo: 40)
+  x[1->B] = 0   (custo: 37)
+  x[1->C] = 1   (custo: 35)
+  x[2->A] = 1   (custo: 36)
+  x[2->B] = 0   (custo: 38)
+  x[2->C] = 0   (custo: 34)
+  x[3->A] = 0   (custo: 29)
+  x[3->B] = 1   (custo: 25)
+  x[3->C] = 0   (custo: 26)
+\end{lstlisting}
+
+\subsection{Problema do Caminho Mínimo (\texttt{04\_PCM})}
+\begin{lstlisting}
+Status: integer optimal solution
+Função Objetivo (Custo Mínimo): 22.00
+
+Caminho mínimo encontrado: A -> B -> D -> C -> G
+
+Arcos escolhidos (x_ij = 1):
+  x[A->B] = 1   (custo: 10)
+  x[B->D] = 1   (custo: 5)
+  x[C->G] = 1   (custo: 4)
+  x[D->C] = 1   (custo: 3)
+\end{lstlisting}
+
+\subsection{Problema de Fluxo Máximo (\texttt{05\_PFM})}
+\begin{lstlisting}
+Status: integer optimal solution
+Função Objetivo (Fluxo Máximo S->T): 19.00
+
+Fluxo ótimo por arco:
+  x[S->A] =  8 / 8
+  x[S->D] = 11 / 18
+  x[A->B] =  8 / 12
+  x[A->C] =  0 / 4
+  x[A->D] =  0 / 10
+  x[B->T] = 13 / 20
+  x[C->B] =  5 / 7
+  x[C->E] =  0 / 14
+  x[D->C] =  5 / 5
+  x[D->E] =  6 / 10
+  x[E->T] =  6 / 6
+\end{lstlisting}
+
+\section{Conclusão}
+Todos os cinco modelos foram resolvidos de forma ótima pelo CPLEX, reproduzindo exatamente os valores de função objetivo e as alocações obtidas no LINGO. A leitura padronizada por arquivos de entrada e a estrutura modular em Python permitem reutilizar as implementações para novas instâncias sem alteração na formulação dos modelos.
+
+\end{document}

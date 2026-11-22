@@ -1,0 +1,24 @@
+9 14
+F S 10
+G S 10
+H S 10
+P D 8
+Q D 7
+R D 6
+S D 9
+M T 0
+N T 0
+F P 7 INF
+F M 2 8
+G M 5 7
+G H 2 INF
+H M 6 INF
+H N 5 9
+H S 4 6
+M P 1 17
+M Q 3 4
+M R 4 INF
+N S 3 INF
+P Q 1 10
+Q R 1 INF
+R N 2 INF

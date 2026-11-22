@@ -1,0 +1,23 @@
+# Ambiente virtual e caches do Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Checkpoints do Jupyter
+.ipynb_checkpoints/
+
+# Teste inicial (caso exista na pasta)
+00_teste_ambiente.ipynb
+
+# Arquivos auxiliares gerados pelo LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+
+# Pacotes e arquivos temporários do sistema
+*.zip
+.DS_Store
+Thumbs.db
