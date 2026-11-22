@@ -6,8 +6,6 @@ __pycache__/
 # Checkpoints do Jupyter
 .ipynb_checkpoints/
 
-# Teste inicial (caso exista na pasta)
-00_teste_ambiente.ipynb
 
 # Arquivos auxiliares gerados pelo LaTeX
 *.aux
