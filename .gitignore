@@ -16,6 +16,7 @@ __pycache__/
 *.log
 *.out
 *.synctex.gz
+*.tex
 
 # Pacotes e arquivos temporários do sistema
 *.zip
